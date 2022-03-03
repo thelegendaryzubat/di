@@ -23,9 +23,6 @@ namespace FractalPainting.App
             pictureBoxImageHolder.RecreateImage(imageSettings);
             pictureBoxImageHolder.Dock = DockStyle.Fill;
             Controls.Add(pictureBoxImageHolder);
-
-            DependencyInjector.Inject<IImageDirectoryProvider>(actions, CreateSettingsManager().Load());
-            DependencyInjector.Inject<IImageSettingsProvider>(actions, CreateSettingsManager().Load());
         }
 
         private static SettingsManager CreateSettingsManager()

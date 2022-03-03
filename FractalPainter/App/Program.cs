@@ -34,9 +34,20 @@ namespace FractalPainting.App
                 container.Bind<IImageHolder>().ToMethod(context => 
                     context.Kernel.Get<PictureBoxImageHolder>()
                 );
+                container.Bind<ImageSettings>().ToMethod(context => 
+                    context.Kernel.Get<AppSettings>().ImageSettings
+                );
                 container.Bind<Palette>().ToSelf().InSingletonScope();
                 container.Bind<KochPainter>().ToSelf();
 
+                container.Bind<IObjectSerializer>().To<XmlObjectSerializer>()
+                    .WhenInjectedInto<SettingsManager>();
+                container.Bind<IBlobStorage>().To<FileBlobStorage>()
+                    .WhenInjectedInto<SettingsManager>();
+                container.Bind<AppSettings, IImageDirectoryProvider>()
+                    .ToMethod(context => context.Kernel.Get<SettingsManager>().Load())
+                    .InSingletonScope();
+                
                 container.Bind<IDragonPainterFactory>().ToFactory();
                 
                 Application.EnableVisualStyles();
